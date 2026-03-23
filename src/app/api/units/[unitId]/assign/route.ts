@@ -12,7 +12,7 @@ export async function POST(
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'No session found. Please refresh and try again.' }, { status: 401 });
   }
 
   const body = await request.json();
@@ -95,7 +95,7 @@ export async function DELETE(
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'No session found. Please refresh and try again.' }, { status: 401 });
   }
 
   const { data: unit } = await admin

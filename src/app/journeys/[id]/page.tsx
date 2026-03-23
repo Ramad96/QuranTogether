@@ -150,7 +150,6 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
           journeyId={journey.id}
           inviteCode={journey.invite_code}
           urlCode={inviteCode}
-          isLoggedIn={!!user}
         />
       )}
 

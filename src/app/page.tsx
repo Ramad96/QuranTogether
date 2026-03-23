@@ -3,6 +3,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { JourneyWithStats } from '@/types';
 import JourneyCard from '@/components/journey/JourneyCard';
 import { BookOpen, Heart, Users, Plus } from 'lucide-react';
+import { version } from '../../package.json';
 
 async function getJourneys(): Promise<JourneyWithStats[]> {
   const supabase = await getSupabaseServerClient();
@@ -48,6 +49,7 @@ export default async function HomePage() {
         <h1 className="text-4xl font-bold text-slate-900 sm:text-5xl">
           Complete the Quran
           <span className="text-emerald-600"> Together</span>
+          <span className="ml-3 text-base font-normal text-slate-300">v{version}</span>
         </h1>
         <p className="mt-4 max-w-xl mx-auto text-lg text-slate-500">
           Start a shared journey — complete the Quran or 40 Yaseen as a group,
@@ -128,6 +130,7 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
     </div>
   );
 }

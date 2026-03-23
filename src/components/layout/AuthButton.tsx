@@ -16,14 +16,7 @@ export default function AuthButton({ user, profile }: AuthButtonProps) {
   const [open, setOpen] = useState(false);
 
   if (!user) {
-    return (
-      <Link
-        href="/auth/login"
-        className="ml-2 rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700 transition-colors"
-      >
-        Sign in
-      </Link>
-    );
+    return null;
   }
 
   const displayName = profile?.name || user.email?.split('@')[0] || 'User';

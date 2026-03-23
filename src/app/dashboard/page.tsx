@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { JourneyWithStats } from '@/types';
@@ -15,20 +14,18 @@ export default async function DashboardPage() {
   const supabase = await getSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) redirect('/auth/login?redirectTo=/dashboard');
-
   // Fetch user profile
-  const { data: profile } = await supabase
+  const { data: profile } = user ? await supabase
     .from('users')
     .select('id, name, email, avatar_url, is_guest')
     .eq('id', user.id)
-    .single();
+    .single() : { data: null };
 
   // Fetch journeys this user participates in
-  const { data: participations } = await supabase
+  const { data: participations } = user ? await supabase
     .from('journey_participants')
     .select('journey_id, is_admin')
-    .eq('user_id', user.id);
+    .eq('user_id', user.id) : { data: null };
 
   const journeyIds = (participations || []).map((p) => p.journey_id);
 
@@ -61,16 +58,16 @@ export default async function DashboardPage() {
   }
 
   // Fetch units assigned to this user
-  const { data: rawAssignments } = await supabase
+  const { data: rawAssignments } = user ? await supabase
     .from('journey_units')
     .select(`*, journey:journeys!journey_units_journey_id_fkey(id, title, type, dedication_name)`)
     .eq('assigned_to', user.id)
     .neq('status', 'UNASSIGNED')
-    .order('updated_at', { ascending: false });
+    .order('updated_at', { ascending: false }) : { data: null };
 
   const assignments = rawAssignments || [];
 
-  const displayName = profile?.name || user.email?.split('@')[0] || 'Friend';
+  const displayName = profile?.name || user?.email?.split('@')[0] || 'Friend';
   const totalCompleted = assignments.filter((a) => a.status === 'COMPLETED').length;
 
   return (
@@ -144,21 +141,6 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Guest upgrade prompt */}
-      {profile?.is_guest && (
-        <div className="mt-8 rounded-2xl bg-amber-50 border border-amber-100 p-5">
-          <p className="text-sm font-medium text-amber-800 mb-1">Save your progress</p>
-          <p className="text-sm text-amber-700 mb-3">
-            Link your email address to keep your progress and access your journeys from any device.
-          </p>
-          <Link
-            href="/auth/login"
-            className="inline-flex items-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700 transition-colors"
-          >
-            Link email account
-          </Link>
-        </div>
-      )}
     </div>
   );
 }

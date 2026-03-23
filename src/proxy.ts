@@ -26,21 +26,7 @@ export async function proxy(request: NextRequest) {
   );
 
   // Refresh session — IMPORTANT: do not remove this
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // Protected routes
-  const isProtected =
-    request.nextUrl.pathname.startsWith('/dashboard') ||
-    request.nextUrl.pathname.startsWith('/journeys/new');
-
-  if (isProtected && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/auth/login';
-    url.searchParams.set('redirectTo', request.nextUrl.pathname);
-    return NextResponse.redirect(url);
-  }
+  await supabase.auth.getUser();
 
   return supabaseResponse;
 }

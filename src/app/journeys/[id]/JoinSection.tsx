@@ -2,39 +2,36 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { Users, LogIn } from 'lucide-react';
+import { Users } from 'lucide-react';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 interface JoinSectionProps {
   journeyId: string;
   inviteCode: string;
-  urlCode?: string;  // Code from URL params (auto-join flow)
-  isLoggedIn: boolean;
+  urlCode?: string;
 }
 
-export default function JoinSection({
-  journeyId,
-  inviteCode,
-  urlCode,
-  isLoggedIn,
-}: JoinSectionProps) {
+export default function JoinSection({ journeyId, inviteCode }: JoinSectionProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Auto-join if code matches
-  const codeToUse = urlCode && urlCode === inviteCode ? inviteCode : inviteCode;
-
   const handleJoin = async () => {
-    if (!isLoggedIn) return;
     setLoading(true);
     setError('');
     try {
+      const supabase = getSupabaseBrowserClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        const { error: anonError } = await supabase.auth.signInAnonymously();
+        if (anonError) throw new Error('Failed to start session. Please try again.');
+      }
+
       const res = await fetch(`/api/journeys/${journeyId}/join`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ invite_code: codeToUse }),
+        body: JSON.stringify({ invite_code: inviteCode }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -55,30 +52,14 @@ export default function JoinSection({
         <div className="flex-1">
           <p className="font-medium text-slate-900 text-sm">Join this journey</p>
           <p className="text-sm text-slate-500 mt-0.5">
-            {isLoggedIn
-              ? 'Join to claim units and participate in this shared recitation.'
-              : 'Sign in or join as a guest to participate in this journey.'}
+            Join to claim units and participate in this shared recitation.
           </p>
-
-          {error && (
-            <p className="mt-2 text-sm text-red-600">{error}</p>
-          )}
-
-          <div className="mt-3 flex items-center gap-2">
-            {isLoggedIn ? (
-              <Button onClick={handleJoin} loading={loading} size="sm">
-                <Users className="h-4 w-4" />
-                Join Journey
-              </Button>
-            ) : (
-              <Link
-                href={`/auth/login?redirectTo=/journeys/${journeyId}?code=${inviteCode}`}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
-              >
-                <LogIn className="h-4 w-4" />
-                Sign in to join
-              </Link>
-            )}
+          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+          <div className="mt-3">
+            <Button onClick={handleJoin} loading={loading} size="sm">
+              <Users className="h-4 w-4" />
+              Join Journey
+            </Button>
           </div>
         </div>
       </div>

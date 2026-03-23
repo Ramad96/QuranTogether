@@ -58,7 +58,6 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
   }, [initialJourney.id, currentUserId]);
 
   const handleUnitClick = (unit: JourneyUnit) => {
-    if (!currentUserId || !isParticipant) return;
     setSelectedUnit(unit);
     setModalOpen(true);
   };
@@ -130,21 +129,10 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
             unit={unit}
             type={initialJourney.type}
             currentUserId={currentUserId}
-            onClick={isParticipant ? handleUnitClick : undefined}
+            onClick={handleUnitClick}
           />
         ))}
       </div>
-
-      {!isParticipant && currentUserId && (
-        <p className="text-center text-sm text-slate-400 mt-4">
-          Join this journey to claim and complete units.
-        </p>
-      )}
-      {!currentUserId && (
-        <p className="text-center text-sm text-slate-400 mt-4">
-          Sign in or join as a guest to participate.
-        </p>
-      )}
 
       <AssignModal
         unit={selectedUnit}

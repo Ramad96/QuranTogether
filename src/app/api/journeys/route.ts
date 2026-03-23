@@ -52,6 +52,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Ensure user profile exists (anonymous sign-ins bypass the OAuth callback)
+  await admin.from('users').upsert({
+    id: user.id,
+    name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Guest',
+    email: user.email || null,
+    avatar_url: user.user_metadata?.avatar_url || null,
+    is_guest: user.is_anonymous ?? false,
+  }, { onConflict: 'id', ignoreDuplicates: true });
+
   const body = await request.json();
   const { title, dedication_name, type, description } = body as {
     title: string;

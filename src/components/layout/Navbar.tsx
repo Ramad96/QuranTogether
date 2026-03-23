@@ -35,22 +35,18 @@ export default async function Navbar() {
           >
             Journeys
           </Link>
-          {user && (
-            <>
-              <Link
-                href="/dashboard"
-                className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-              >
-                Dashboard
-              </Link>
-              <Link
-                href="/journeys/new"
-                className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
-              >
-                + New
-              </Link>
-            </>
-          )}
+          <Link
+            href="/dashboard"
+            className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/journeys/new"
+            className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+          >
+            + New
+          </Link>
           <AuthButton user={user} profile={profile} />
         </div>
       </div>
