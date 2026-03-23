@@ -1,65 +1,133 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { JourneyWithStats } from '@/types';
+import JourneyCard from '@/components/journey/JourneyCard';
+import { BookOpen, Heart, Users, Plus } from 'lucide-react';
 
-export default function Home() {
+async function getJourneys(): Promise<JourneyWithStats[]> {
+  const supabase = await getSupabaseServerClient();
+
+  const { data: journeys, error } = await supabase
+    .from('journeys')
+    .select(`
+      *,
+      creator:users!journeys_created_by_fkey(id, name, avatar_url),
+      journey_participants(count),
+      journey_units(status)
+    `)
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
+
+  if (error || !journeys) return [];
+
+  return journeys.map((j) => {
+    const units = j.journey_units as { status: string }[];
+    const completed = units.filter((u) => u.status === 'COMPLETED').length;
+    return {
+      ...j,
+      journey_units: undefined,
+      journey_participants: undefined,
+      participant_count: (j.journey_participants as { count: number }[])[0]?.count ?? 0,
+      completed_count: completed,
+      total_units: units.length,
+    };
+  });
+}
+
+export default async function HomePage() {
+  const journeys = await getJourneys();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      {/* Hero */}
+      <div className="mb-12 text-center">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-sm text-emerald-700 border border-emerald-100">
+          <Heart className="h-3.5 w-3.5" />
+          Collective worship, shared reward
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <h1 className="text-4xl font-bold text-slate-900 sm:text-5xl">
+          Complete the Quran
+          <span className="text-emerald-600"> Together</span>
+        </h1>
+        <p className="mt-4 max-w-xl mx-auto text-lg text-slate-500">
+          Start a shared journey — complete the Quran or 40 Yaseen as a group,
+          dedicated to your loved ones.
+        </p>
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <Link
+            href="/journeys/new"
+            className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors shadow-sm"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
+            <Plus className="h-4 w-4" />
+            Start a Journey
+          </Link>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#journeys"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
           >
-            Documentation
+            View Journeys
           </a>
         </div>
-      </main>
+      </div>
+
+      {/* Stats */}
+      <div className="mb-10 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+        {[
+          { icon: BookOpen, label: 'Active Journeys', value: journeys.length },
+          {
+            icon: Users,
+            label: 'Participants',
+            value: journeys.reduce((a, j) => a + j.participant_count, 0),
+          },
+          {
+            icon: Heart,
+            label: 'Units Completed',
+            value: journeys.reduce((a, j) => a + j.completed_count, 0),
+          },
+        ].map(({ icon: Icon, label, value }) => (
+          <div key={label} className="rounded-2xl bg-white border border-slate-100 p-4 text-center shadow-sm">
+            <Icon className="h-5 w-5 text-emerald-600 mx-auto mb-1" />
+            <p className="text-2xl font-bold text-slate-900">{value}</p>
+            <p className="text-xs text-slate-400 mt-0.5">{label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Journey list */}
+      <section id="journeys">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-xl font-semibold text-slate-900">Active Journeys</h2>
+          <Link
+            href="/journeys/new"
+            className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+          >
+            + New journey
+          </Link>
+        </div>
+
+        {journeys.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-slate-200 py-20 text-center bg-white">
+            <BookOpen className="h-12 w-12 text-slate-200 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-slate-600 mb-2">No journeys yet</h3>
+            <p className="text-sm text-slate-400 mb-6">
+              Be the first to start a shared Quran journey.
+            </p>
+            <Link
+              href="/journeys/new"
+              className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
+            >
+              <Plus className="h-4 w-4" />
+              Create first journey
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {journeys.map((journey) => (
+              <JourneyCard key={journey.id} journey={journey} />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }
