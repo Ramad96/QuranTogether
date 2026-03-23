@@ -164,13 +164,15 @@ export default function AssignModal({
             </div>
           )}
 
-          {/* Admin: assign to another participant */}
-          {isAdmin && unit.status === 'UNASSIGNED' && participants.length > 1 && (
+          {/* Admin: assign to a participant */}
+          {isAdmin && (unit.status === 'UNASSIGNED' || (unit.status === 'ASSIGNED' && !isMyUnit)) && participants.length > 0 && (
             <div className="border-t border-slate-100 pt-3 mt-2">
-              <p className="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wide">Assign to participant</p>
+              <p className="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wide">
+                {unit.status === 'UNASSIGNED' ? 'Assign to participant' : 'Reassign to participant'}
+              </p>
               <div className="space-y-1.5 max-h-40 overflow-y-auto">
                 {participants
-                  .filter((p) => p.user_id !== currentUserId)
+                  .filter((p) => p.user_id !== unit.assigned_to)
                   .map((p) => (
                     <button
                       key={p.user_id}

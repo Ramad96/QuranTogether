@@ -129,6 +129,7 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
             unit={unit}
             type={initialJourney.type}
             currentUserId={currentUserId}
+            isAdmin={isAdmin}
             onClick={handleUnitClick}
           />
         ))}

@@ -9,6 +9,7 @@ interface UnitTileProps {
   unit: JourneyUnit;
   type: string;
   currentUserId?: string;
+  isAdmin?: boolean;
   onClick?: (unit: JourneyUnit) => void;
 }
 
@@ -18,8 +19,8 @@ const statusStyles: Record<UnitStatus, string> = {
   COMPLETED: 'bg-emerald-50 border-emerald-200 text-emerald-700',
 };
 
-export default function UnitTile({ unit, type, currentUserId, onClick }: UnitTileProps) {
-  const isClickable = unit.status === 'UNASSIGNED' || unit.assigned_to === currentUserId;
+export default function UnitTile({ unit, type, currentUserId, isAdmin, onClick }: UnitTileProps) {
+  const isClickable = !!currentUserId && (unit.status === 'UNASSIGNED' || unit.assigned_to === currentUserId || isAdmin);
   const isMyUnit = unit.assigned_to === currentUserId;
 
   const label = type === 'QURAN'

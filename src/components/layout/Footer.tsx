@@ -13,6 +13,17 @@ export default function Footer() {
           <p className="text-xs">
             &ldquo;Indeed, We have sent down the Quran and indeed, We will be its guardian.&rdquo; — Al-Hijr 15:9
           </p>
+          <p className="text-xs mt-1">
+            Powered by{' '}
+            <a
+              href="https://amanahdigital.co.uk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-600 hover:text-emerald-700 font-medium"
+            >
+              AmanahDigital
+            </a>
+          </p>
         </div>
       </div>
     </footer>

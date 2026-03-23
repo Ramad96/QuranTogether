@@ -2,32 +2,53 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { Users } from 'lucide-react';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { Users, LogIn } from 'lucide-react';
 
 interface JoinSectionProps {
   journeyId: string;
   inviteCode: string;
   urlCode?: string;
+  isLoggedIn: boolean;
 }
 
-export default function JoinSection({ journeyId, inviteCode }: JoinSectionProps) {
+export default function JoinSection({ journeyId, inviteCode, isLoggedIn }: JoinSectionProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  if (!isLoggedIn) {
+    return (
+      <div className="mb-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
+        <div className="flex items-start gap-3">
+          <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+            <Users className="h-4 w-4 text-emerald-600" />
+          </div>
+          <div className="flex-1">
+            <p className="font-medium text-slate-900 text-sm">Want to participate?</p>
+            <p className="text-sm text-slate-500 mt-0.5">
+              Sign in to claim units and join this shared recitation.
+            </p>
+            <div className="mt-3">
+              <Link
+                href={`/auth/login?redirectTo=${encodeURIComponent(`/journeys/${journeyId}`)}`}
+                className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
+              >
+                <LogIn className="h-4 w-4" />
+                Sign in to join
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleJoin = async () => {
     setLoading(true);
     setError('');
     try {
-      const supabase = getSupabaseBrowserClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        const { error: anonError } = await supabase.auth.signInAnonymously();
-        if (anonError) throw new Error('Failed to start session. Please try again.');
-      }
-
       const res = await fetch(`/api/journeys/${journeyId}/join`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

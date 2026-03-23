@@ -30,23 +30,46 @@ export default async function Navbar() {
         {/* Nav links */}
         <div className="flex items-center gap-1">
           <Link
-            href="/"
+            href="/mission"
             className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
           >
-            Journeys
+            Our Mission
           </Link>
           <Link
-            href="/dashboard"
+            href="/get-involved"
             className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
           >
-            Dashboard
+            Get Involved
           </Link>
           <Link
-            href="/journeys/new"
-            className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+            href="/about"
+            className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
           >
-            + New
+            About
           </Link>
+          {user && (
+            <Link
+              href="/dashboard"
+              className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+            >
+              Dashboard
+            </Link>
+          )}
+          {user ? (
+            <Link
+              href="/journeys/new"
+              className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+            >
+              + New
+            </Link>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+            >
+              Sign In
+            </Link>
+          )}
           <AuthButton user={user} profile={profile} />
         </div>
       </div>

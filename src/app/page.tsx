@@ -1,12 +1,14 @@
 import Link from 'next/link';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseAdminClient } from '@/lib/supabase/server';
 import { JourneyWithStats } from '@/types';
 import JourneyCard from '@/components/journey/JourneyCard';
 import { BookOpen, Heart, Users, Plus } from 'lucide-react';
 import { version } from '../../package.json';
 
+export const dynamic = 'force-dynamic';
+
 async function getJourneys(): Promise<JourneyWithStats[]> {
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdminClient();
 
   const { data: journeys, error } = await supabase
     .from('journeys')
@@ -55,7 +57,7 @@ export default async function HomePage() {
           Start a shared journey — complete the Quran or 40 Yaseen as a group,
           dedicated to your loved ones.
         </p>
-        <div className="mt-6 flex items-center justify-center gap-3">
+        <div className="mt-6 flex items-center justify-center">
           <Link
             href="/journeys/new"
             className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors shadow-sm"
@@ -63,12 +65,6 @@ export default async function HomePage() {
             <Plus className="h-4 w-4" />
             Start a Journey
           </Link>
-          <a
-            href="#journeys"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
-          >
-            View Journeys
-          </a>
         </div>
       </div>
 

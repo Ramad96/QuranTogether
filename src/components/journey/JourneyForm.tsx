@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import { JOURNEY_TYPE_LABELS } from '@/lib/constants';
 import { BookOpen, Heart } from 'lucide-react';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 export default function JourneyForm() {
   const router = useRouter();
@@ -24,14 +23,6 @@ export default function JourneyForm() {
     setLoading(true);
 
     try {
-      // Ensure session exists before calling the API (SessionProvider may not have finished yet)
-      const supabase = getSupabaseBrowserClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        const { error: anonError } = await supabase.auth.signInAnonymously();
-        if (anonError) throw new Error(anonError.message);
-      }
-
       const res = await fetch('/api/journeys', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

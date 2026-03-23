@@ -1,11 +1,20 @@
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { getSupabaseServerClient } from '@/lib/supabase/server';
 import JourneyForm from '@/components/journey/JourneyForm';
 
 export const metadata: Metadata = {
   title: 'Create Journey — QuranTogether',
 };
 
-export default function NewJourneyPage() {
+export default async function NewJourneyPage() {
+  const supabase = await getSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user || user.is_anonymous) {
+    redirect('/auth/login?redirectTo=/journeys/new');
+  }
+
   return (
     <div className="mx-auto max-w-lg px-4 py-10 sm:px-6">
       <div className="mb-8">
