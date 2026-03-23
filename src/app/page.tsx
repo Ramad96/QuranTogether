@@ -48,7 +48,7 @@ export default async function HomePage() {
           <Heart className="h-3.5 w-3.5" />
           Collective worship, shared reward
         </div>
-        <h1 className="text-4xl font-bold text-slate-900 sm:text-5xl">
+        <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl md:text-5xl">
           Complete the Quran
           <span className="text-emerald-600"> Together</span>
           <span className="ml-3 text-base font-normal text-slate-300">v{version}</span>
@@ -69,7 +69,7 @@ export default async function HomePage() {
       </div>
 
       {/* Stats */}
-      <div className="mb-10 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+      <div className="mb-10 grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mx-auto">
         {[
           { icon: BookOpen, label: 'Active Journeys', value: journeys.length },
           {
@@ -83,10 +83,10 @@ export default async function HomePage() {
             value: journeys.reduce((a, j) => a + j.completed_count, 0),
           },
         ].map(({ icon: Icon, label, value }) => (
-          <div key={label} className="rounded-2xl bg-white border border-slate-100 p-4 text-center shadow-sm">
-            <Icon className="h-5 w-5 text-emerald-600 mx-auto mb-1" />
-            <p className="text-2xl font-bold text-slate-900">{value}</p>
-            <p className="text-xs text-slate-400 mt-0.5">{label}</p>
+          <div key={label} className="rounded-2xl bg-white border border-slate-100 p-3 sm:p-4 text-center shadow-sm">
+            <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600 mx-auto mb-1" />
+            <p className="text-xl sm:text-2xl font-bold text-slate-900">{value}</p>
+            <p className="text-xs text-slate-400 mt-0.5 leading-tight">{label}</p>
           </div>
         ))}
       </div>

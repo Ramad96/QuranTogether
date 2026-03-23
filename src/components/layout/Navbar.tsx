@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import AuthButton from './AuthButton';
+import MobileMenu from './MobileMenu';
 
 export default async function Navbar() {
   const supabase = await getSupabaseServerClient();
@@ -27,50 +28,68 @@ export default async function Navbar() {
           <span className="font-semibold text-slate-900 hidden sm:block">QuranTogether</span>
         </Link>
 
-        {/* Nav links */}
+        {/* Right side */}
         <div className="flex items-center gap-1">
-          <Link
-            href="/mission"
-            className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-          >
-            Our Mission
-          </Link>
-          <Link
-            href="/get-involved"
-            className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-          >
-            Get Involved
-          </Link>
-          <Link
-            href="/about"
-            className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-          >
-            About
-          </Link>
-          {user && (
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-1">
             <Link
-              href="/dashboard"
+              href="/mission"
               className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
             >
-              Dashboard
+              Our Mission
             </Link>
-          )}
-          {user ? (
             <Link
-              href="/journeys/new"
-              className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+              href="/get-involved"
+              className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
             >
-              + New
+              Get Involved
             </Link>
-          ) : (
+            <Link
+              href="/about"
+              className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+            >
+              About
+            </Link>
+            {user && (
+              <Link
+                href="/dashboard"
+                className="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+              >
+                Dashboard
+              </Link>
+            )}
+            {user ? (
+              <Link
+                href="/journeys/new"
+                className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+              >
+                + New
+              </Link>
+            ) : (
+              <Link
+                href="/auth/login"
+                className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+              >
+                Sign In
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile: sign in button (when not logged in) */}
+          {!user && (
             <Link
               href="/auth/login"
-              className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors ml-1"
+              className="md:hidden rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
             >
               Sign In
             </Link>
           )}
+
+          {/* Auth avatar dropdown (shown when logged in, both mobile and desktop) */}
           <AuthButton user={user} profile={profile} />
+
+          {/* Mobile burger menu */}
+          <MobileMenu user={user} />
         </div>
       </div>
     </nav>

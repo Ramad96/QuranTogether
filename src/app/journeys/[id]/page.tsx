@@ -157,7 +157,7 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
         {/* Grid — takes 2/3 width */}
         <div className="lg:col-span-2">
           <div className="rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
               <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
                 {journey.type === 'QURAN' ? 'All 30 Juz' : 'All 40 Yaseen'}
               </h2>

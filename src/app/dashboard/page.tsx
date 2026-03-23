@@ -96,15 +96,15 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats row */}
-      <div className="mb-8 grid grid-cols-3 gap-4">
+      <div className="mb-8 grid grid-cols-3 gap-3 sm:gap-4">
         {[
           { label: 'Journeys', value: journeys.length },
           { label: 'Units Assigned', value: assignments.length },
           { label: 'Completed', value: totalCompleted },
         ].map(({ label, value }) => (
-          <div key={label} className="rounded-2xl bg-white border border-slate-100 p-4 text-center shadow-sm">
-            <p className="text-2xl font-bold text-slate-900">{value}</p>
-            <p className="text-xs text-slate-400 mt-0.5">{label}</p>
+          <div key={label} className="rounded-2xl bg-white border border-slate-100 p-3 sm:p-4 text-center shadow-sm">
+            <p className="text-xl sm:text-2xl font-bold text-slate-900">{value}</p>
+            <p className="text-xs text-slate-400 mt-0.5 leading-tight">{label}</p>
           </div>
         ))}
       </div>
