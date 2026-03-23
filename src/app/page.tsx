@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getSupabaseAdminClient } from '@/lib/supabase/server';
+import { getSupabaseAdminClient, getSupabaseServerClient } from '@/lib/supabase/server';
 import { JourneyWithStats } from '@/types';
 import JourneyCard from '@/components/journey/JourneyCard';
 import { BookOpen, Heart, Users, Plus } from 'lucide-react';
@@ -38,7 +38,11 @@ async function getJourneys(): Promise<JourneyWithStats[]> {
 }
 
 export default async function HomePage() {
-  const journeys = await getJourneys();
+  const [journeys, { data: { user } }] = await Promise.all([
+    getJourneys(),
+    getSupabaseServerClient().then((s) => s.auth.getUser()),
+  ]);
+  const isLoggedIn = !!user && !user.is_anonymous;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -121,7 +125,7 @@ export default async function HomePage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {journeys.map((journey) => (
-              <JourneyCard key={journey.id} journey={journey} loginRedirect />
+              <JourneyCard key={journey.id} journey={journey} loginRedirect={!isLoggedIn} />
             ))}
           </div>
         )}
