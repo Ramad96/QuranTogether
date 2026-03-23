@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseServerClient, getSupabaseAdminClient } from '@/lib/supabase/server';
 import { JourneyDetail } from '@/types';
-import { JOURNEY_TYPE_LABELS, UNIT_COUNTS } from '@/lib/constants';
+import { JOURNEY_TYPE_LABELS } from '@/lib/constants';
 import { getInviteUrl, formatDate } from '@/lib/utils';
 import JourneyGrid from '@/components/journey/JourneyGrid';
 import ParticipantsList from '@/components/journey/ParticipantsList';
-import ProgressBar from '@/components/journey/ProgressBar';
 import CopyButton from '@/components/ui/CopyButton';
 import JoinSection from './JoinSection';
 import Badge from '@/components/ui/Badge';
@@ -19,8 +18,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const supabase = await getSupabaseServerClient();
-  const { data: journey } = await supabase
+  const admin = getSupabaseAdminClient();
+  const { data: journey } = await admin
     .from('journeys')
     .select('title, dedication_name')
     .eq('id', id)
@@ -34,9 +33,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 async function getJourneyDetail(id: string, userId?: string): Promise<JourneyDetail | null> {
-  const supabase = await getSupabaseServerClient();
+  const admin = getSupabaseAdminClient();
 
-  const { data: journey, error: journeyError } = await supabase
+  const { data: journey, error: journeyError } = await admin
     .from('journeys')
     .select(`*, creator:users!journeys_created_by_fkey(id, name, avatar_url, email)`)
     .eq('id', id)
@@ -45,13 +44,13 @@ async function getJourneyDetail(id: string, userId?: string): Promise<JourneyDet
 
   if (journeyError || !journey) return null;
 
-  const { data: units } = await supabase
+  const { data: units } = await admin
     .from('journey_units')
     .select(`*, assigned_user:users!journey_units_assigned_to_fkey(id, name, avatar_url)`)
     .eq('journey_id', id)
     .order('unit_number', { ascending: true });
 
-  const { data: participants } = await supabase
+  const { data: participants } = await admin
     .from('journey_participants')
     .select(`*, user:users!journey_participants_user_id_fkey(id, name, avatar_url, email)`)
     .eq('journey_id', id);
@@ -89,7 +88,6 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
 
   const inviteUrl = getInviteUrl(journey.id, journey.invite_code);
   const typeLabel = JOURNEY_TYPE_LABELS[journey.type] || journey.type;
-  const totalUnits = UNIT_COUNTS[journey.type] || journey.total_units;
 
   // Participant stats for ParticipantsList
   const participantsWithStats = journey.participants.map((p) => {
@@ -153,18 +151,6 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
           isLoggedIn={!!user && !user.is_anonymous}
         />
       )}
-
-      {/* Progress */}
-      <div className="mb-8 rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
-        <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
-          Overall Progress
-        </h2>
-        <ProgressBar
-          completed={journey.completed_count}
-          total={totalUnits}
-          size="lg"
-        />
-      </div>
 
       {/* Main content */}
       <div className="grid gap-6 lg:grid-cols-3">

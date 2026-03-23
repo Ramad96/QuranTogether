@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { JourneyUnit, JourneyParticipant, JourneyDetail } from '@/types';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { JourneyUnit, JourneyDetail } from '@/types';
+import { UNIT_COUNTS } from '@/lib/constants';
 import UnitTile from './UnitTile';
 import AssignModal from './AssignModal';
+import ProgressBar from './ProgressBar';
 
 interface JourneyGridProps {
   initialJourney: JourneyDetail;
@@ -12,54 +14,23 @@ interface JourneyGridProps {
 }
 
 export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGridProps) {
-  const [units, setUnits] = useState<JourneyUnit[]>(initialJourney.units);
-  const [participants] = useState<JourneyParticipant[]>(initialJourney.participants);
+  const router = useRouter();
   const [selectedUnit, setSelectedUnit] = useState<JourneyUnit | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   const isAdmin = initialJourney.current_user_is_admin || false;
-  const isParticipant = initialJourney.current_user_is_participant || false;
-
-  // Supabase Realtime subscription
-  useEffect(() => {
-    if (!currentUserId) return;
-    const supabase = getSupabaseBrowserClient();
-
-    const channel = supabase
-      .channel(`journey-${initialJourney.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'journey_units',
-          filter: `journey_id=eq.${initialJourney.id}`,
-        },
-        async (payload: { new: { id: string } }) => {
-          // Fetch the updated unit with assigned_user info
-          const { data: updatedUnit } = await supabase
-            .from('journey_units')
-            .select('*, assigned_user:users!journey_units_assigned_to_fkey(id, name, avatar_url)')
-            .eq('id', payload.new.id)
-            .single();
-
-          if (updatedUnit) {
-            setUnits((prev) =>
-              prev.map((u) => (u.id === updatedUnit.id ? updatedUnit : u))
-            );
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [initialJourney.id, currentUserId]);
+  const units = initialJourney.units;
+  const totalUnits = UNIT_COUNTS[initialJourney.type] || initialJourney.total_units;
+  const completedCount = units.filter((u) => u.status === 'COMPLETED').length;
 
   const handleUnitClick = (unit: JourneyUnit) => {
     setSelectedUnit(unit);
     setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+    setSelectedUnit(null);
   };
 
   const handleAssign = useCallback(async (unitId: string, userId: string) => {
@@ -72,16 +43,8 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
       const err = await res.json();
       throw new Error(err.error || 'Failed to assign');
     }
-    const { unit } = await res.json();
-    // Fetch with user info
-    const supabase = getSupabaseBrowserClient();
-    const { data } = await supabase
-      .from('journey_units')
-      .select('*, assigned_user:users!journey_units_assigned_to_fkey(id, name, avatar_url)')
-      .eq('id', unit.id)
-      .single();
-    if (data) setUnits((prev) => prev.map((u) => (u.id === data.id ? data : u)));
-  }, []);
+    router.refresh();
+  }, [router]);
 
   const handleUnassign = useCallback(async (unitId: string) => {
     const res = await fetch(`/api/units/${unitId}/assign`, { method: 'DELETE' });
@@ -89,9 +52,8 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
       const err = await res.json();
       throw new Error(err.error || 'Failed to unassign');
     }
-    const { unit } = await res.json();
-    setUnits((prev) => prev.map((u) => (u.id === unit.id ? { ...u, assigned_to: null, status: 'UNASSIGNED', assigned_user: null } : u)));
-  }, []);
+    router.refresh();
+  }, [router]);
 
   const handleMarkComplete = useCallback(async (unitId: string) => {
     const res = await fetch(`/api/units/${unitId}/status`, {
@@ -103,8 +65,8 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
       const err = await res.json();
       throw new Error(err.error || 'Failed to update');
     }
-    setUnits((prev) => prev.map((u) => (u.id === unitId ? { ...u, status: 'COMPLETED' } : u)));
-  }, []);
+    router.refresh();
+  }, [router]);
 
   const handleMarkIncomplete = useCallback(async (unitId: string) => {
     const res = await fetch(`/api/units/${unitId}/status`, {
@@ -116,12 +78,18 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
       const err = await res.json();
       throw new Error(err.error || 'Failed to update');
     }
-    setUnits((prev) => prev.map((u) => (u.id === unitId ? { ...u, status: 'ASSIGNED' } : u)));
-  }, []);
+    router.refresh();
+  }, [router]);
 
-  // Grid layout: 5 columns for Quran (6 rows = 30), 5 cols for Yaseen (8 rows = 40)
   return (
     <>
+      <div className="mb-8 rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
+        <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+          Overall Progress
+        </h2>
+        <ProgressBar completed={completedCount} total={totalUnits} size="lg" />
+      </div>
+
       <div className="grid grid-cols-5 sm:grid-cols-6 gap-2">
         {units.map((unit) => (
           <UnitTile
@@ -139,8 +107,8 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
         unit={selectedUnit}
         journeyType={initialJourney.type}
         isOpen={modalOpen}
-        onClose={() => { setModalOpen(false); setSelectedUnit(null); }}
-        participants={participants}
+        onClose={handleClose}
+        participants={initialJourney.participants}
         currentUserId={currentUserId || ''}
         isAdmin={isAdmin}
         onAssign={handleAssign}

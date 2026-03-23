@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseServerClient, getSupabaseAdminClient } from '@/lib/supabase/server';
 import { JourneyWithStats } from '@/types';
 import JourneyCard from '@/components/journey/JourneyCard';
 import MyAssignments from '@/components/dashboard/MyAssignments';
@@ -14,15 +14,17 @@ export default async function DashboardPage() {
   const supabase = await getSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  const admin = getSupabaseAdminClient();
+
   // Fetch user profile
-  const { data: profile } = user ? await supabase
+  const { data: profile } = user ? await admin
     .from('users')
     .select('id, name, email, avatar_url, is_guest')
     .eq('id', user.id)
     .single() : { data: null };
 
   // Fetch journeys this user participates in
-  const { data: participations } = user ? await supabase
+  const { data: participations } = user ? await admin
     .from('journey_participants')
     .select('journey_id, is_admin')
     .eq('user_id', user.id) : { data: null };
@@ -31,7 +33,7 @@ export default async function DashboardPage() {
 
   let journeys: JourneyWithStats[] = [];
   if (journeyIds.length > 0) {
-    const { data: rawJourneys } = await supabase
+    const { data: rawJourneys } = await admin
       .from('journeys')
       .select(`
         *,
@@ -58,7 +60,7 @@ export default async function DashboardPage() {
   }
 
   // Fetch units assigned to this user
-  const { data: rawAssignments } = user ? await supabase
+  const { data: rawAssignments } = user ? await admin
     .from('journey_units')
     .select(`*, journey:journeys!journey_units_journey_id_fkey(id, title, type, dedication_name)`)
     .eq('assigned_to', user.id)
@@ -80,7 +82,7 @@ export default async function DashboardPage() {
           </h1>
           <p className="mt-1 text-sm text-slate-500">
             {journeys.length > 0
-              ? `You&apos;re part of ${journeys.length} journey${journeys.length !== 1 ? 's' : ''} · ${totalCompleted} unit${totalCompleted !== 1 ? 's' : ''} completed`
+              ? `You're part of ${journeys.length} journey${journeys.length !== 1 ? 's' : ''} · ${totalCompleted} unit${totalCompleted !== 1 ? 's' : ''} completed`
               : 'Join or start a journey to get started.'}
           </p>
         </div>

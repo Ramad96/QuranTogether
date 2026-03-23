@@ -10,14 +10,17 @@ interface JourneyCardProps {
   journey: JourneyWithStats;
   showJoinButton?: boolean;
   compact?: boolean;
+  loginRedirect?: boolean;
 }
 
-export default function JourneyCard({ journey, showJoinButton = true, compact = false }: JourneyCardProps) {
+export default function JourneyCard({ journey, showJoinButton = true, compact = false, loginRedirect = false }: JourneyCardProps) {
   const typeLabel = JOURNEY_TYPE_SHORT[journey.type] || journey.type;
+  const journeyHref = `/journeys/${journey.id}`;
+  const href = loginRedirect ? `/auth/login?redirectTo=${encodeURIComponent(journeyHref)}` : journeyHref;
 
   return (
     <Link
-      href={`/journeys/${journey.id}`}
+      href={href}
       className="group block rounded-2xl border border-slate-100 bg-white p-5 shadow-sm hover:shadow-md hover:border-emerald-100 transition-all duration-200"
     >
       <div className="flex items-start justify-between gap-3 mb-3">
