@@ -7,12 +7,14 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 // can use all features without any login prompt.
 export default function SessionProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const supabase = getSupabaseBrowserClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    const init = async () => {
+      const supabase = getSupabaseBrowserClient();
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        supabase.auth.signInAnonymously();
+        await supabase.auth.signInAnonymously();
       }
-    });
+    };
+    init();
   }, []);
 
   return <>{children}</>;
