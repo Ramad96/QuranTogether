@@ -5,6 +5,7 @@ import { JourneyDetail } from '@/types';
 import { JOURNEY_TYPE_LABELS } from '@/lib/constants';
 import { getInviteUrl, formatDate } from '@/lib/utils';
 import JourneyGrid from '@/components/journey/JourneyGrid';
+import JourneyCompleteModal from '@/components/journey/JourneyCompleteModal';
 import ParticipantsList from '@/components/journey/ParticipantsList';
 import CopyButton from '@/components/ui/CopyButton';
 import JoinSection from './JoinSection';
@@ -101,8 +102,11 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
     };
   });
 
+  const isComplete = journey.total_units > 0 && journey.completed_count === journey.total_units;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      {isComplete && <JourneyCompleteModal dedicationName={journey.dedication_name} />}
       {/* Header */}
       <div className="mb-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
