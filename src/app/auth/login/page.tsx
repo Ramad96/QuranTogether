@@ -103,11 +103,11 @@ function LoginForm() {
   if (sent) {
     return (
       <div className="text-center">
-        <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100">
-          <Mail className="h-7 w-7 text-emerald-600" />
+        <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/[0.12]">
+          <Mail className="h-7 w-7 text-brand" />
         </div>
-        <h2 className="text-xl font-semibold text-slate-900 mb-2">Check your email</h2>
-        <p className="text-sm text-slate-500">
+        <h2 className="text-xl font-semibold text-ink mb-2">Check your email</h2>
+        <p className="text-sm text-ink/55">
           We&apos;ve sent a magic link to <strong>{email}</strong>.<br />
           Click the link to sign in.
         </p>
@@ -118,12 +118,12 @@ function LoginForm() {
   return (
     <div className="space-y-4">
       {/* Mode toggle */}
-      <div className="flex rounded-xl border border-slate-200 bg-slate-50 p-1 gap-1">
+      <div className="flex rounded-xl border border-ink/[0.12] bg-void p-1 gap-1">
         <button
           type="button"
           onClick={() => setMode('magic')}
           className={`flex-1 rounded-lg py-2 text-sm font-medium transition-colors ${
-            mode === 'magic' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+            mode === 'magic' ? 'bg-surface text-ink shadow-sm' : 'text-ink/50 hover:text-ink/70'
           }`}
         >
           Sign in
@@ -132,7 +132,7 @@ function LoginForm() {
           type="button"
           onClick={() => setMode('guest')}
           className={`flex-1 rounded-lg py-2 text-sm font-medium transition-colors ${
-            mode === 'guest' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+            mode === 'guest' ? 'bg-surface text-ink shadow-sm' : 'text-ink/50 hover:text-ink/70'
           }`}
         >
           Join as guest
@@ -154,9 +154,9 @@ function LoginForm() {
           </Button>
 
           <div className="flex items-center gap-3">
-            <div className="flex-1 border-t border-slate-200" />
-            <span className="text-xs text-slate-400">or</span>
-            <div className="flex-1 border-t border-slate-200" />
+            <div className="flex-1 border-t border-ink/[0.12]" />
+            <span className="text-xs text-ink/40">or</span>
+            <div className="flex-1 border-t border-ink/[0.12]" />
           </div>
 
           <form onSubmit={handleMagicLink} className="space-y-3">
@@ -166,7 +166,7 @@ function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
-              className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm placeholder-slate-400 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-100"
+              className="w-full rounded-xl border border-ink/[0.15] bg-void px-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12]"
             />
             <Button type="submit" size="lg" className="w-full" loading={loading}>
               <Mail className="h-4 w-4" />
@@ -176,11 +176,11 @@ function LoginForm() {
         </div>
       ) : (
         <form onSubmit={handleGuestJoin} className="space-y-3">
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-ink/55">
             Join with just your name — no account needed.
           </p>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink/40" />
             <input
               type="text"
               value={guestName}
@@ -188,13 +188,13 @@ function LoginForm() {
               placeholder="Your name"
               required
               maxLength={50}
-              className="w-full rounded-xl border border-slate-200 pl-10 pr-4 py-2.5 text-sm placeholder-slate-400 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-100"
+              className="w-full rounded-xl border border-ink/[0.15] bg-void pl-10 pr-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12]"
             />
           </div>
           <Button type="submit" size="lg" className="w-full" loading={loading}>
             Join as {guestName || 'Guest'}
           </Button>
-          <p className="text-xs text-slate-400 text-center">
+          <p className="text-xs text-ink/40 text-center">
             You can link your email later to keep your progress.
           </p>
         </form>
@@ -215,14 +215,17 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Header */}
         <div className="mb-8 text-center">
-          <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white text-xl font-bold shadow-md">
+          <div
+            className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-on-brand text-xl font-bold shadow-md"
+            style={{ fontFamily: 'var(--font-lateef), serif' }}
+          >
             ق
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
-          <p className="mt-1 text-sm text-slate-500">Sign in to join or create journeys</p>
+          <h1 className="text-2xl font-bold text-ink">Welcome back</h1>
+          <p className="mt-1 text-sm text-ink/55">Sign in to join or create journeys</p>
         </div>
 
-        <div className="rounded-2xl bg-white border border-slate-100 p-6 shadow-sm">
+        <div className="rounded-2xl bg-surface border border-ink/[0.09] p-6 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
           <Suspense fallback={null}>
             <LoginForm />
           </Suspense>

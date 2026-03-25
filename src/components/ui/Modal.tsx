@@ -32,7 +32,7 @@ export default function Modal({ isOpen, onClose, title, children, className }: M
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -40,17 +40,17 @@ export default function Modal({ isOpen, onClose, title, children, className }: M
       {/* Panel */}
       <div
         className={cn(
-          'relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl',
+          'relative w-full max-w-md rounded-2xl bg-surface p-6 shadow-xl border border-ink/[0.09]',
           className
         )}
         role="dialog"
         aria-modal="true"
       >
         <div className="flex items-start justify-between mb-4">
-          {title && <h2 className="text-lg font-semibold text-slate-900">{title}</h2>}
+          {title && <h2 className="text-lg font-semibold text-ink">{title}</h2>}
           <button
             onClick={onClose}
-            className="ml-auto -mt-1 -mr-1 rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
+            className="ml-auto -mt-1 -mr-1 rounded-lg p-1.5 text-ink/40 hover:bg-elevated hover:text-ink/60 transition-colors"
             aria-label="Close"
           >
             <X className="h-5 w-5" />

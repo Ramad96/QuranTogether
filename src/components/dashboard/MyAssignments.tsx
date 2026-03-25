@@ -50,10 +50,10 @@ export default function MyAssignments({ assignments }: MyAssignmentsProps) {
 
   if (units.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center">
-        <BookOpen className="h-10 w-10 text-slate-200 mx-auto mb-3" />
-        <p className="text-sm text-slate-400">No units assigned yet.</p>
-        <p className="text-xs text-slate-300 mt-1">Join a journey and claim your portion.</p>
+      <div className="rounded-2xl border border-dashed border-ink/[0.15] p-8 text-center">
+        <BookOpen className="h-10 w-10 text-ink/20 mx-auto mb-3" />
+        <p className="text-sm text-ink/40">No units assigned yet.</p>
+        <p className="text-xs text-ink/30 mt-1">Join a journey and claim your portion.</p>
       </div>
     );
   }
@@ -97,45 +97,45 @@ export default function MyAssignments({ assignments }: MyAssignmentsProps) {
         const allDone = completedCount === groupUnits.length;
 
         return (
-          <div key={journeyId} className="rounded-2xl border border-slate-100 bg-white overflow-hidden">
+          <div key={journeyId} className="rounded-2xl border border-ink/[0.09] bg-surface overflow-hidden">
             {/* Group header */}
             <button
               onClick={() => toggleCollapse(journeyId)}
-              className="flex w-full items-center justify-between gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-left"
+              className="flex w-full items-center justify-between gap-3 px-4 py-3 hover:bg-elevated transition-colors text-left"
             >
               <div className="flex-1 min-w-0">
                 {journey ? (
-                  <p className="text-sm font-semibold text-slate-900 truncate">{journey.title}</p>
+                  <p className="text-sm font-semibold text-ink truncate">{journey.title}</p>
                 ) : (
-                  <p className="text-sm font-semibold text-slate-400">Unknown Journey</p>
+                  <p className="text-sm font-semibold text-ink/40">Unknown Journey</p>
                 )}
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-ink/40 mt-0.5">
                   {completedCount}/{groupUnits.length} done
-                  {allDone && <span className="ml-1.5 text-emerald-600 font-medium">· Complete</span>}
+                  {allDone && <span className="ml-1.5 text-brand font-medium">· Complete</span>}
                 </p>
               </div>
               <ChevronDown
-                className={`h-4 w-4 text-slate-400 shrink-0 transition-transform duration-200 ${isCollapsed ? '-rotate-90' : ''}`}
+                className={`h-4 w-4 text-ink/40 shrink-0 transition-transform duration-200 ${isCollapsed ? '-rotate-90' : ''}`}
               />
             </button>
 
             {/* Units list */}
             {!isCollapsed && (
-              <div className="border-t border-slate-100 divide-y divide-slate-100">
+              <div className="border-t border-ink/[0.09] divide-y divide-ink/[0.06]">
                 {groupUnits.map((unit) => (
                   <div
                     key={unit.id}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-elevated transition-colors"
                   >
                     {/* Status dot */}
                     <div className={`h-2 w-2 rounded-full shrink-0 ${
-                      unit.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-amber-400'
+                      unit.status === 'COMPLETED' ? 'bg-quran' : 'bg-sawm'
                     }`} />
 
                     {/* Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-slate-900">
+                        <span className="text-sm font-medium text-ink">
                           {getUnitLabel(unit.journey?.type || '', unit.unit_number)}
                         </span>
                         <Badge variant={unit.status === 'COMPLETED' ? 'success' : 'warning'}>
@@ -149,7 +149,7 @@ export default function MyAssignments({ assignments }: MyAssignmentsProps) {
                       variant={unit.status === 'COMPLETED' ? 'ghost' : 'primary'}
                       size="sm"
                       onClick={() => handleToggleComplete(unit)}
-                      className={unit.status === 'COMPLETED' ? 'text-slate-400' : ''}
+                      className={unit.status === 'COMPLETED' ? 'text-ink/40' : ''}
                     >
                       <Check className="h-3.5 w-3.5" />
                       {unit.status === 'COMPLETED' ? 'Undo' : 'Done'}
@@ -160,7 +160,7 @@ export default function MyAssignments({ assignments }: MyAssignmentsProps) {
                   <div className="px-4 py-2">
                     <Link
                       href={`/journeys/${journey.id}`}
-                      className="text-xs text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+                      className="text-xs text-brand hover:text-brand-dark font-medium transition-colors"
                     >
                       View journey →
                     </Link>

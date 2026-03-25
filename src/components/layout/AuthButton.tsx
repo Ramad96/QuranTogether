@@ -31,7 +31,7 @@ export default function AuthButton({ user, profile }: AuthButtonProps) {
     <div className="relative ml-2">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-100 transition-colors"
+        className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-elevated transition-colors"
       >
         {/* Avatar */}
         {profile?.avatar_url ? (
@@ -41,25 +41,25 @@ export default function AuthButton({ user, profile }: AuthButtonProps) {
             className="h-7 w-7 rounded-full object-cover"
           />
         ) : (
-          <div className="h-7 w-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-semibold">
+          <div className="h-7 w-7 rounded-full bg-brand/[0.12] text-brand flex items-center justify-center text-xs font-semibold">
             {getInitials(displayName)}
           </div>
         )}
-        <span className="hidden sm:block text-sm text-slate-700 max-w-[120px] truncate">{displayName}</span>
-        <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+        <span className="hidden sm:block text-sm text-ink/70 max-w-[120px] truncate">{displayName}</span>
+        <ChevronDown className="h-3.5 w-3.5 text-ink/40" />
       </button>
 
       {open && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-full mt-1 z-20 w-48 rounded-xl border border-slate-100 bg-white py-1 shadow-lg">
-            <div className="px-3 py-2 border-b border-slate-100">
-              <p className="text-sm font-medium text-slate-900 truncate">{displayName}</p>
-              {user.email && <p className="text-xs text-slate-500 truncate">{user.email}</p>}
+          <div className="absolute right-0 top-full mt-1 z-20 w-48 rounded-xl border border-ink/[0.09] bg-surface py-1 shadow-lg">
+            <div className="px-3 py-2 border-b border-ink/[0.09]">
+              <p className="text-sm font-medium text-ink truncate">{displayName}</p>
+              {user.email && <p className="text-xs text-ink/50 truncate">{user.email}</p>}
             </div>
             <Link
               href="/dashboard"
-              className="flex items-center px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+              className="flex items-center px-3 py-2 text-sm text-ink/70 hover:bg-elevated"
               onClick={() => setOpen(false)}
             >
               Dashboard

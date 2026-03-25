@@ -1,22 +1,84 @@
 @import "tailwindcss";
 
+/* ── Root: light-mode baseline (used by body selector) ── */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #F3F0EA;
+  --foreground: #1C1610;
 }
 
+/* ── Fonts: @theme inline so next/font var() refs pass through ── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
+}
+
+/* ── Colours: plain @theme → generates :root CSS variables
+      and supports opacity modifiers (text-ink/55, bg-brand/[0.12], …) ── */
+@theme {
+  /* Neutrals */
+  --color-brand:      #A0601A;
+  --color-brand-dark: #7A4510;
+  --color-on-brand:   #FAF5EC;   /* text on top of brand-coloured surfaces  */
+  --color-surface:    #EBE8E2;   /* was #EDE7DB — cooler, easier on eyes     */
+  --color-void:       #F3F0EA;   /* was #F5F0E8 — softer neutral parchment   */
+  --color-elevated:   #E3DDD6;   /* was #E4DDD0 — matched to new void scale  */
+  --color-ink:        #1C1610;
+
+  /* Pillar semantic colours — light adapted */
+  --color-sawm-bg:    #F7EEE0;
+  --color-sawm:       #7A4510;
+  --color-quran-bg:   #E4F0E8;
+  --color-quran:      #2A6040;
+  --color-salah-bg:   #E4EFF4;
+  --color-salah:      #2B6480;
+  --color-dhikr-bg:   #ECEAF5;
+  --color-dhikr:      #4A3870;
+  --color-sadaqah-bg: #F5E8E8;
+  --color-sadaqah:    #7A2828;
+}
+
+/* ── Dark-mode overrides (Amanah Digital × Noor — Dark v1.1) ──
+      Applied when <html data-theme="dark"> is set by ThemeSwitcher.  ── */
+[data-theme="dark"] {
+  --background: #080610;
+  --foreground: #e8e0d8;
+
+  /* Neutrals */
+  --color-brand:      #F5C97A;
+  --color-brand-dark: #C8884A;
+  --color-on-brand:   #0D0B17;   /* dark ink on gold buttons */
+  --color-surface:    #131120;   /* was #0e0c1a — slightly lifted            */
+  --color-void:       #0D0B17;   /* was #080610 — less harsh near-black      */
+  --color-elevated:   #19162B;   /* was #14112a — matched to new void scale  */
+  --color-ink:        #e8e0d8;
+
+  /* Pillar semantic colours — dark adapted */
+  --color-sawm-bg:    #1F1408;
+  --color-sawm:       #C8884A;
+  --color-quran-bg:   #091410;
+  --color-quran:      #4A9E70;
+  --color-salah-bg:   #091318;
+  --color-salah:      #4A9FC0;
+  --color-dhikr-bg:   #100E1A;
+  --color-dhikr:      #8B72C8;
+  --color-sadaqah-bg: #180A0A;
+  --color-sadaqah:    #C85050;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-void);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  background-image:
+    repeating-linear-gradient(60deg,  transparent, transparent 40px, rgba(28,22,16,0.012) 40px, rgba(28,22,16,0.012) 41px),
+    repeating-linear-gradient(-60deg, transparent, transparent 40px, rgba(28,22,16,0.012) 40px, rgba(28,22,16,0.012) 41px);
+}
+
+[data-theme="dark"] body {
+  background-image:
+    repeating-linear-gradient(60deg,  transparent, transparent 40px, rgba(255,255,255,0.005) 40px, rgba(255,255,255,0.005) 41px),
+    repeating-linear-gradient(-60deg, transparent, transparent 40px, rgba(255,255,255,0.005) 40px, rgba(255,255,255,0.005) 41px);
 }
 
 html {
@@ -24,21 +86,16 @@ html {
 }
 
 :focus-visible {
-  outline: 2px solid #10b981;
+  outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: rgba(128,110,80,0.25);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgba(128,110,80,0.4);
 }

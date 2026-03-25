@@ -40,7 +40,7 @@ export default function CopyButton({ text, label = 'Copy link', className }: Cop
     >
       {copied ? (
         <>
-          <Check className="h-4 w-4 text-emerald-600" />
+          <Check className="h-4 w-4 text-brand" />
           Copied!
         </>
       ) : (

@@ -57,22 +57,22 @@ export default function AssignModal({
     <Modal isOpen={isOpen} onClose={onClose} title={unitLabel}>
       <div className="space-y-4">
         {/* Status indicator */}
-        <div className="rounded-xl bg-slate-50 p-3 text-sm">
+        <div className="rounded-xl bg-void p-3 text-sm border border-ink/[0.09]">
           {unit.status === 'UNASSIGNED' && (
-            <p className="text-slate-600">This unit is available and waiting to be claimed.</p>
+            <p className="text-ink/60">This unit is available and waiting to be claimed.</p>
           )}
           {unit.status === 'ASSIGNED' && unit.assigned_user && (
             <div className="flex items-center gap-2">
-              <div className="h-6 w-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-semibold">
+              <div className="h-6 w-6 rounded-full bg-sawm-bg text-sawm flex items-center justify-center text-xs font-semibold">
                 {unit.assigned_user.name?.[0]?.toUpperCase()}
               </div>
-              <p className="text-slate-600">
-                Assigned to <span className="font-medium text-slate-900">{unit.assigned_user.name}</span>
+              <p className="text-ink/60">
+                Assigned to <span className="font-medium text-ink">{unit.assigned_user.name}</span>
               </p>
             </div>
           )}
           {unit.status === 'COMPLETED' && (
-            <div className="flex items-center gap-2 text-emerald-700">
+            <div className="flex items-center gap-2 text-quran">
               <Check className="h-4 w-4" />
               <p className="font-medium">Completed by {unit.assigned_user?.name || 'someone'}</p>
             </div>
@@ -108,7 +108,7 @@ export default function AssignModal({
                 variant="ghost"
                 onClick={() => handleAction(() => onUnassign(unit.id))}
                 loading={loading}
-                className="w-full text-slate-500"
+                className="w-full text-ink/50"
               >
                 Release unit
               </Button>
@@ -121,7 +121,7 @@ export default function AssignModal({
               variant="ghost"
               onClick={() => handleAction(() => onMarkIncomplete(unit.id))}
               loading={loading}
-              className="w-full text-slate-500"
+              className="w-full text-ink/50"
             >
               Mark as incomplete
             </Button>
@@ -129,8 +129,8 @@ export default function AssignModal({
 
           {/* Admin actions */}
           {isAdmin && !isMyUnit && unit.status !== 'UNASSIGNED' && (
-            <div className="border-t border-slate-100 pt-3 mt-2">
-              <p className="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wide">Admin actions</p>
+            <div className="border-t border-ink/[0.09] pt-3 mt-2">
+              <p className="text-xs text-ink/40 mb-2 font-medium uppercase tracking-wide">Admin actions</p>
               {unit.status === 'ASSIGNED' && (
                 <>
                   <Button
@@ -145,7 +145,7 @@ export default function AssignModal({
                     variant="ghost"
                     onClick={() => handleAction(() => onUnassign(unit.id))}
                     loading={loading}
-                    className="w-full text-slate-500"
+                    className="w-full text-ink/50"
                   >
                     Unassign unit
                   </Button>
@@ -156,7 +156,7 @@ export default function AssignModal({
                   variant="ghost"
                   onClick={() => handleAction(() => onMarkIncomplete(unit.id))}
                   loading={loading}
-                  className="w-full text-slate-500"
+                  className="w-full text-ink/50"
                 >
                   Mark as incomplete
                 </Button>
@@ -166,8 +166,8 @@ export default function AssignModal({
 
           {/* Admin: assign to a participant */}
           {isAdmin && (unit.status === 'UNASSIGNED' || (unit.status === 'ASSIGNED' && !isMyUnit)) && participants.length > 0 && (
-            <div className="border-t border-slate-100 pt-3 mt-2">
-              <p className="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wide">
+            <div className="border-t border-ink/[0.09] pt-3 mt-2">
+              <p className="text-xs text-ink/40 mb-2 font-medium uppercase tracking-wide">
                 {unit.status === 'UNASSIGNED' ? 'Assign to participant' : 'Reassign to participant'}
               </p>
               <div className="space-y-1.5 max-h-40 overflow-y-auto">
@@ -177,12 +177,12 @@ export default function AssignModal({
                     <button
                       key={p.user_id}
                       onClick={() => handleAction(() => onAssign(unit.id, p.user_id))}
-                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-slate-50 transition-colors"
+                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-elevated transition-colors"
                     >
-                      <div className="h-6 w-6 rounded-full bg-slate-200 flex items-center justify-center text-xs font-semibold text-slate-600 shrink-0">
+                      <div className="h-6 w-6 rounded-full bg-elevated flex items-center justify-center text-xs font-semibold text-ink/60 shrink-0">
                         {p.user?.name?.[0]?.toUpperCase() || '?'}
                       </div>
-                      <span className="text-slate-700">{p.user?.name || 'Unknown'}</span>
+                      <span className="text-ink/70">{p.user?.name || 'Unknown'}</span>
                     </button>
                   ))}
               </div>

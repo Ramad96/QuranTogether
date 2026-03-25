@@ -41,30 +41,33 @@ export default function GetInvolvedPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
       <div className="mb-10 text-center">
-        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white text-xl font-bold shadow-md">
+        <div
+          className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-on-brand text-xl font-bold shadow-md"
+          style={{ fontFamily: 'var(--font-lateef), serif' }}
+        >
           ق
         </div>
-        <h1 className="text-3xl font-bold text-slate-900">How Can I Get Involved?</h1>
-        <p className="mt-3 text-slate-500 text-lg">
+        <h1 className="text-3xl font-bold text-ink">How Can I Get Involved?</h1>
+        <p className="mt-3 text-ink/55 text-lg">
           There are many ways to contribute — big and small.
         </p>
       </div>
 
       <div className="space-y-5">
         {steps.map(({ icon: Icon, title, description, action }, i) => (
-          <div key={title} className="rounded-2xl bg-white border border-slate-100 p-6 shadow-sm">
+          <div key={title} className="rounded-2xl bg-surface border border-ink/[0.09] p-6 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50">
-                <Icon className="h-5 w-5 text-emerald-600" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sawm-bg">
+                <Icon className="h-5 w-5 text-brand" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 rounded-full px-2 py-0.5">
+                  <span className="text-xs font-semibold text-brand bg-sawm-bg rounded-full px-2 py-0.5">
                     0{i + 1}
                   </span>
-                  <h2 className="font-semibold text-slate-900">{title}</h2>
+                  <h2 className="font-semibold text-ink">{title}</h2>
                 </div>
-                <p className="text-sm text-slate-600 leading-relaxed">{description}</p>
+                <p className="text-sm text-ink/60 leading-relaxed">{description}</p>
                 {action && (
                   <div className="mt-3">
                     {action.external ? (
@@ -72,14 +75,14 @@ export default function GetInvolvedPage() {
                         href={action.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 hover:text-emerald-700"
+                        className="inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-dark"
                       >
                         {action.label} →
                       </a>
                     ) : (
                       <Link
                         href={action.href}
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 hover:text-emerald-700"
+                        className="inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-dark"
                       >
                         {action.label} →
                       </Link>

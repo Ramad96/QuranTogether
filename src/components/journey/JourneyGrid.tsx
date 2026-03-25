@@ -83,8 +83,8 @@ export default function JourneyGrid({ initialJourney, currentUserId }: JourneyGr
 
   return (
     <>
-      <div className="mb-8 rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
-        <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+      <div className="mb-8 rounded-2xl bg-surface border border-ink/[0.09] p-5 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
+        <h2 className="text-sm font-semibold text-ink/55 uppercase tracking-wide mb-4">
           Overall Progress
         </h2>
         <ProgressBar completed={completedCount} total={totalUnits} size="lg" />

@@ -9,7 +9,7 @@ export default function LoadingSpinner({ size = 'md', className }: LoadingSpinne
   const sizes = { sm: 'h-4 w-4', md: 'h-8 w-8', lg: 'h-12 w-12' };
   return (
     <svg
-      className={cn('animate-spin text-emerald-600', sizes[size], className)}
+      className={cn('animate-spin text-brand', sizes[size], className)}
       fill="none"
       viewBox="0 0 24 24"
     >

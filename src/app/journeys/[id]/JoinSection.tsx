@@ -20,20 +20,20 @@ export default function JoinSection({ journeyId, inviteCode, isLoggedIn }: JoinS
 
   if (!isLoggedIn) {
     return (
-      <div className="mb-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
+      <div className="mb-6 rounded-2xl border border-brand/[0.18] bg-sawm-bg p-5">
         <div className="flex items-start gap-3">
-          <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-            <Users className="h-4 w-4 text-emerald-600" />
+          <div className="h-8 w-8 rounded-full bg-brand/[0.12] flex items-center justify-center shrink-0">
+            <Users className="h-4 w-4 text-brand" />
           </div>
           <div className="flex-1">
-            <p className="font-medium text-slate-900 text-sm">Want to participate?</p>
-            <p className="text-sm text-slate-500 mt-0.5">
+            <p className="font-medium text-ink text-sm">Want to participate?</p>
+            <p className="text-sm text-ink/55 mt-0.5">
               Sign in to claim units and join this shared recitation.
             </p>
             <div className="mt-3">
               <Link
                 href={`/auth/login?redirectTo=${encodeURIComponent(`/journeys/${journeyId}`)}`}
-                className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-on-brand hover:bg-brand-dark transition-colors"
               >
                 <LogIn className="h-4 w-4" />
                 Sign in to join
@@ -65,14 +65,14 @@ export default function JoinSection({ journeyId, inviteCode, isLoggedIn }: JoinS
   };
 
   return (
-    <div className="mb-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
+    <div className="mb-6 rounded-2xl border border-brand/[0.18] bg-sawm-bg p-5">
       <div className="flex items-start gap-3">
-        <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-          <Users className="h-4 w-4 text-emerald-600" />
+        <div className="h-8 w-8 rounded-full bg-brand/[0.12] flex items-center justify-center shrink-0">
+          <Users className="h-4 w-4 text-brand" />
         </div>
         <div className="flex-1">
-          <p className="font-medium text-slate-900 text-sm">Join this journey</p>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <p className="font-medium text-ink text-sm">Join this journey</p>
+          <p className="text-sm text-ink/55 mt-0.5">
             Join to claim units and participate in this shared recitation.
           </p>
           {error && <p className="mt-2 text-sm text-red-600">{error}</p>}

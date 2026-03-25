@@ -24,16 +24,16 @@ export default function ProgressBar({
     <div className={cn('w-full', className)}>
       {showLabel && (
         <div className="flex items-center justify-between mb-1.5 text-sm">
-          <span className="text-slate-600">
-            <span className="font-semibold text-emerald-700">{completed}</span>
-            <span className="text-slate-400"> / {total} completed</span>
+          <span className="text-ink/60">
+            <span className="font-semibold text-brand">{completed}</span>
+            <span className="text-ink/40"> / {total} completed</span>
           </span>
-          <span className="font-semibold text-emerald-700">{percent}%</span>
+          <span className="font-semibold text-brand">{percent}%</span>
         </div>
       )}
-      <div className={cn('w-full rounded-full bg-slate-100 overflow-hidden', heights[size])}>
+      <div className={cn('w-full rounded-full bg-ink/[0.08] overflow-hidden', heights[size])}>
         <div
-          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-500"
+          className="h-full rounded-full bg-gradient-to-r from-brand-dark to-brand transition-all duration-500"
           style={{ width: `${percent}%` }}
         />
       </div>

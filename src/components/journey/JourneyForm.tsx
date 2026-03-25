@@ -48,7 +48,7 @@ export default function JourneyForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Journey Type */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-2">
+        <label className="block text-sm font-medium text-ink/70 mb-2">
           Journey Type
         </label>
         <div className="grid grid-cols-2 gap-3">
@@ -59,8 +59,8 @@ export default function JourneyForm() {
               onClick={() => setForm((f) => ({ ...f, type }))}
               className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 text-sm font-medium transition-all ${
                 form.type === type
-                  ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                  ? 'border-brand bg-sawm-bg text-brand'
+                  : 'border-ink/[0.15] bg-void text-ink/60 hover:border-ink/[0.25]'
               }`}
             >
               {type === 'QURAN' ? (
@@ -76,7 +76,7 @@ export default function JourneyForm() {
 
       {/* Title */}
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-slate-700 mb-1.5">
+        <label htmlFor="title" className="block text-sm font-medium text-ink/70 mb-1.5">
           Journey Title
         </label>
         <input
@@ -87,17 +87,17 @@ export default function JourneyForm() {
           placeholder={form.type === 'QURAN' ? 'Quran Completion for Adam' : '40 Yaseen for Grandma'}
           required
           maxLength={100}
-          className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-100 transition-colors"
+          className="w-full rounded-xl border border-ink/[0.15] bg-void px-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12] transition-colors"
         />
       </div>
 
       {/* Dedication */}
       <div>
-        <label htmlFor="dedication_name" className="block text-sm font-medium text-slate-700 mb-1.5">
+        <label htmlFor="dedication_name" className="block text-sm font-medium text-ink/70 mb-1.5">
           Dedicated To
         </label>
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">For</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-ink/40 text-sm">For</span>
           <input
             id="dedication_name"
             type="text"
@@ -106,16 +106,16 @@ export default function JourneyForm() {
             placeholder="Adam"
             required
             maxLength={100}
-            className="w-full rounded-xl border border-slate-200 pl-12 pr-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-100 transition-colors"
+            className="w-full rounded-xl border border-ink/[0.15] bg-void pl-12 pr-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12] transition-colors"
           />
         </div>
-        <p className="mt-1 text-xs text-slate-400">Who is this journey dedicated to?</p>
+        <p className="mt-1 text-xs text-ink/40">Who is this journey dedicated to?</p>
       </div>
 
       {/* Description */}
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-700 mb-1.5">
-          Message <span className="text-slate-400 font-normal">(optional)</span>
+        <label htmlFor="description" className="block text-sm font-medium text-ink/70 mb-1.5">
+          Message <span className="text-ink/40 font-normal">(optional)</span>
         </label>
         <textarea
           id="description"
@@ -124,9 +124,9 @@ export default function JourneyForm() {
           placeholder="A personal message or dua for this journey..."
           rows={3}
           maxLength={500}
-          className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-100 transition-colors resize-none"
+          className="w-full rounded-xl border border-ink/[0.15] bg-void px-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12] transition-colors resize-none"
         />
-        <p className="mt-1 text-xs text-slate-400 text-right">{form.description.length}/500</p>
+        <p className="mt-1 text-xs text-ink/40 text-right">{form.description.length}/500</p>
       </div>
 
       {error && (

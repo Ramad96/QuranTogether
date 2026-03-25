@@ -14,9 +14,9 @@ interface UnitTileProps {
 }
 
 const statusStyles: Record<UnitStatus, string> = {
-  UNASSIGNED: 'bg-slate-50 border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 text-slate-500',
-  ASSIGNED: 'bg-amber-50 border-amber-200 hover:border-amber-300 text-amber-800',
-  COMPLETED: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+  UNASSIGNED: 'bg-void border-ink/[0.12] hover:border-brand/40 hover:bg-sawm-bg text-ink/50',
+  ASSIGNED:   'bg-sawm-bg border-sawm/30 hover:border-sawm/50 text-sawm',
+  COMPLETED:  'bg-quran-bg border-quran/30 text-quran',
 };
 
 export default function UnitTile({ unit, type, currentUserId, isAdmin, onClick }: UnitTileProps) {
@@ -50,13 +50,13 @@ export default function UnitTile({ unit, type, currentUserId, isAdmin, onClick }
         statusStyles[unit.status],
         isClickable && 'cursor-pointer',
         !isClickable && unit.status !== 'UNASSIGNED' && 'cursor-default',
-        isMyUnit && 'ring-2 ring-emerald-400 ring-offset-1',
+        isMyUnit && 'ring-2 ring-brand ring-offset-1',
       )}
     >
       {/* Completion checkmark */}
       {unit.status === 'COMPLETED' && (
         <div className="absolute top-1 right-1">
-          <Check className="h-3 w-3 text-emerald-600" strokeWidth={3} />
+          <Check className="h-3 w-3 text-quran" strokeWidth={3} />
         </div>
       )}
 
@@ -83,7 +83,7 @@ export default function UnitTile({ unit, type, currentUserId, isAdmin, onClick }
               className="h-4 w-4 rounded-full object-cover"
             />
           ) : (
-            <div className="h-4 w-4 rounded-full bg-white/60 text-[8px] font-bold flex items-center justify-center text-slate-600">
+            <div className="h-4 w-4 rounded-full bg-white/60 text-[8px] font-bold flex items-center justify-center text-ink/60">
               {getInitials(assigneeName)}
             </div>
           )}

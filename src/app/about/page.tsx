@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About Us — QuranTogether',
@@ -9,17 +8,20 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
       <div className="mb-10 text-center">
-        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white text-xl font-bold shadow-md">
+        <div
+          className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-on-brand text-xl font-bold shadow-md"
+          style={{ fontFamily: 'var(--font-lateef), serif' }}
+        >
           ق
         </div>
-        <h1 className="text-3xl font-bold text-slate-900">About Us</h1>
-        <p className="mt-3 text-slate-500 text-lg">
+        <h1 className="text-3xl font-bold text-ink">About Us</h1>
+        <p className="mt-3 text-ink/55 text-lg">
           QuranTogether is built by{' '}
           <a
             href="https://amanahdigital.co.uk"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-600 hover:text-emerald-700 font-medium"
+            className="text-brand hover:text-brand-dark font-medium"
           >
             AmanahDigital
           </a>
@@ -27,9 +29,9 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="space-y-6 text-slate-600 leading-relaxed">
-        <div className="rounded-2xl bg-white border border-slate-100 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900 mb-3">Who We Are</h2>
+      <div className="space-y-6 text-ink/60 leading-relaxed">
+        <div className="rounded-2xl bg-surface border border-ink/[0.09] p-6 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
+          <h2 className="text-lg font-semibold text-ink mb-3">Who We Are</h2>
           <p>
             AmanahDigital is a UK-based team of Muslim developers and designers dedicated to
             building digital tools that serve the Muslim community. We believe that technology,
@@ -44,8 +46,8 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="rounded-2xl bg-white border border-slate-100 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900 mb-3">Why We Built QuranTogether</h2>
+        <div className="rounded-2xl bg-surface border border-ink/[0.09] p-6 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
+          <h2 className="text-lg font-semibold text-ink mb-3">Why We Built QuranTogether</h2>
           <p>
             The idea for QuranTogether came from a familiar experience — trying to coordinate a
             Khatm among family members scattered across different cities after a bereavement, with
@@ -60,8 +62,8 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="rounded-2xl bg-white border border-slate-100 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900 mb-3">Our Values</h2>
+        <div className="rounded-2xl bg-surface border border-ink/[0.09] p-6 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
+          <h2 className="text-lg font-semibold text-ink mb-3">Our Values</h2>
           <ul className="space-y-2 text-sm">
             {[
               ['Sincerity', 'We build with the intention of benefiting the community, not just driving engagement.'],
@@ -70,27 +72,27 @@ export default function AboutPage() {
               ['Community', 'We listen to feedback and build with the people we serve, not just for them.'],
             ].map(([title, body]) => (
               <li key={title} className="flex gap-2">
-                <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-brand/[0.12] flex items-center justify-center">
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand" />
                 </span>
                 <span>
-                  <strong className="text-slate-800">{title}:</strong> {body}
+                  <strong className="text-ink/80">{title}:</strong> {body}
                 </span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-6 text-center">
-          <p className="text-slate-700 font-medium mb-1">Get in touch</p>
-          <p className="text-sm text-slate-500 mb-4">
+        <div className="rounded-2xl bg-sawm-bg border border-brand/[0.18] p-6 text-center">
+          <p className="text-ink/70 font-medium mb-1">Get in touch</p>
+          <p className="text-sm text-ink/55 mb-4">
             We&apos;d love to hear from you — whether it&apos;s feedback, a partnership enquiry, or just to say salaam.
           </p>
           <a
             href="https://amanahdigital.co.uk"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-on-brand hover:bg-brand-dark transition-colors"
           >
             Visit AmanahDigital →
           </a>

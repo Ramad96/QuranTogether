@@ -115,25 +115,25 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
               <Badge variant={journey.type === 'QURAN' ? 'info' : 'success'}>
                 {typeLabel}
               </Badge>
-              <span className="text-slate-300">·</span>
-              <span className="flex items-center gap-1 text-sm text-slate-400">
+              <span className="text-ink/30">·</span>
+              <span className="flex items-center gap-1 text-sm text-ink/40">
                 <Calendar className="h-3.5 w-3.5" />
                 {formatDate(journey.created_at)}
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">
               {journey.title}
             </h1>
 
-            <p className="flex items-center gap-1.5 text-slate-500">
-              <Heart className="h-4 w-4 text-rose-400" />
+            <p className="flex items-center gap-1.5 text-ink/55">
+              <Heart className="h-4 w-4 text-sadaqah" />
               Dedicated to{' '}
-              <span className="font-semibold text-slate-700">{journey.dedication_name}</span>
+              <span className="font-semibold text-ink/70">{journey.dedication_name}</span>
             </p>
 
             {journey.description && (
-              <p className="mt-3 text-sm text-slate-500 max-w-2xl leading-relaxed">
+              <p className="mt-3 text-sm text-ink/55 max-w-2xl leading-relaxed">
                 {journey.description}
               </p>
             )}
@@ -160,22 +160,22 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Grid — takes 2/3 width */}
         <div className="lg:col-span-2">
-          <div className="rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
+          <div className="rounded-2xl bg-surface border border-ink/[0.09] p-5 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
             <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+              <h2 className="text-sm font-semibold text-ink/55 uppercase tracking-wide">
                 {journey.type === 'QURAN' ? 'All 30 Juz' : 'All 40 Yaseen'}
               </h2>
-              <div className="flex items-center gap-3 text-xs text-slate-400">
+              <div className="flex items-center gap-3 text-xs text-ink/40">
                 <span className="flex items-center gap-1">
-                  <span className="h-2.5 w-2.5 rounded bg-slate-100 border border-slate-200" />
+                  <span className="h-2.5 w-2.5 rounded bg-void border border-ink/[0.12]" />
                   Available
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="h-2.5 w-2.5 rounded bg-amber-100 border border-amber-200" />
+                  <span className="h-2.5 w-2.5 rounded bg-sawm-bg border border-sawm/30" />
                   Assigned
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="h-2.5 w-2.5 rounded bg-emerald-100 border border-emerald-200" />
+                  <span className="h-2.5 w-2.5 rounded bg-quran-bg border border-quran/30" />
                   Done
                 </span>
               </div>
@@ -189,17 +189,17 @@ export default async function JourneyPage({ params, searchParams }: PageProps) {
 
         {/* Sidebar — participants */}
         <div className="space-y-6">
-          <div className="rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
-            <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+          <div className="rounded-2xl bg-surface border border-ink/[0.09] p-5 shadow-[0_2px_16px_rgba(28,22,16,0.10)]">
+            <h2 className="text-sm font-semibold text-ink/55 uppercase tracking-wide mb-4">
               Participants ({journey.participant_count})
             </h2>
             <ParticipantsList participants={participantsWithStats} />
           </div>
 
           {/* Creator info */}
-          <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
-            <p className="text-xs text-emerald-600 font-medium mb-1">Journey by</p>
-            <p className="text-sm font-semibold text-slate-900">{journey.creator?.name}</p>
+          <div className="rounded-2xl bg-sawm-bg border border-brand/[0.18] p-4">
+            <p className="text-xs text-brand font-medium mb-1">Journey by</p>
+            <p className="text-sm font-semibold text-ink">{journey.creator?.name}</p>
           </div>
         </div>
       </div>

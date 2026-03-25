@@ -12,7 +12,7 @@ interface ParticipantsListProps {
 export default function ParticipantsList({ participants }: ParticipantsListProps) {
   if (participants.length === 0) {
     return (
-      <p className="text-sm text-slate-400 text-center py-4">
+      <p className="text-sm text-ink/40 text-center py-4">
         No participants yet — be the first!
       </p>
     );
@@ -28,7 +28,7 @@ export default function ParticipantsList({ participants }: ParticipantsListProps
         return (
           <div
             key={p.user_id}
-            className="flex items-center gap-3 rounded-xl p-3 bg-slate-50 hover:bg-slate-100 transition-colors"
+            className="flex items-center gap-3 rounded-xl p-3 bg-void hover:bg-elevated transition-colors"
           >
             {/* Avatar */}
             {p.user?.avatar_url ? (
@@ -38,7 +38,7 @@ export default function ParticipantsList({ participants }: ParticipantsListProps
                 className="h-8 w-8 rounded-full object-cover shrink-0"
               />
             ) : (
-              <div className="h-8 w-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-semibold shrink-0">
+              <div className="h-8 w-8 rounded-full bg-brand/[0.12] text-brand flex items-center justify-center text-xs font-semibold shrink-0">
                 {getInitials(name)}
               </div>
             )}
@@ -46,12 +46,12 @@ export default function ParticipantsList({ participants }: ParticipantsListProps
             {/* Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="text-sm font-medium text-slate-900 truncate">{name}</span>
+                <span className="text-sm font-medium text-ink truncate">{name}</span>
                 {p.is_admin && (
-                  <Crown className="h-3 w-3 text-amber-500 shrink-0" />
+                  <Crown className="h-3 w-3 text-sawm shrink-0" />
                 )}
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-ink/40">
                 {assigned} unit{assigned !== 1 ? 's' : ''}
                 {assigned > 0 && ` · ${completed} done`}
               </p>
