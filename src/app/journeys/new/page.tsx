@@ -4,7 +4,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server';
 import JourneyForm from '@/components/journey/JourneyForm';
 
 export const metadata: Metadata = {
-  title: 'Create Journey — QuranTogether',
+  title: 'Create Journey — KhatamTogether',
 };
 
 export default async function NewJourneyPage() {

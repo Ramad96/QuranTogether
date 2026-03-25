@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Plus, Users, Share2, MessageCircle } from 'lucide-react';
+import LogoMark from '@/components/ui/LogoMark';
 
 export const metadata: Metadata = {
-  title: 'Get Involved — QuranTogether',
+  title: 'Get Involved — KhatamTogether',
 };
 
 const steps = [
@@ -25,14 +26,14 @@ const steps = [
     icon: Share2,
     title: 'Spread the Word',
     description:
-      'Know someone who has recently lost a loved one, or a mosque looking to organise a Khatm? Share QuranTogether with them. The more participants, the more powerful the collective act of worship.',
+      'Know someone who has recently lost a loved one, or a mosque looking to organise a Khatm? Share KhatamTogether with them. The more participants, the more powerful the collective act of worship.',
     action: null,
   },
   {
     icon: MessageCircle,
     title: 'Give Us Feedback',
     description:
-      'QuranTogether is built by a small team who care deeply about getting this right. If you have suggestions, encounter any issues, or simply want to share how it has helped your community, we would love to hear from you.',
+      'KhatamTogether is built by a small team who care deeply about getting this right. If you have suggestions, encounter any issues, or simply want to share how it has helped your community, we would love to hear from you.',
     action: { label: 'Contact AmanahDigital', href: 'https://amanahdigital.co.uk', external: true },
   },
 ];
@@ -41,12 +42,7 @@ export default function GetInvolvedPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
       <div className="mb-10 text-center">
-        <div
-          className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-on-brand text-xl font-bold shadow-md"
-          style={{ fontFamily: 'var(--font-lateef), serif' }}
-        >
-          ق
-        </div>
+        <LogoMark size="lg" shadow className="mb-4" />
         <h1 className="text-3xl font-bold text-ink">How Can I Get Involved?</h1>
         <p className="mt-3 text-ink/55 text-lg">
           There are many ways to contribute — big and small.

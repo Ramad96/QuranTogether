@@ -7,7 +7,7 @@ import MyAssignments from '@/components/dashboard/MyAssignments';
 import { Plus, BookOpen } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Dashboard — QuranTogether',
+  title: 'Dashboard — KhatamTogether',
 };
 
 export default async function DashboardPage() {

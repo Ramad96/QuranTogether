@@ -1,20 +1,16 @@
 import { Metadata } from 'next';
 import { Heart, BookOpen, Users } from 'lucide-react';
+import LogoMark from '@/components/ui/LogoMark';
 
 export const metadata: Metadata = {
-  title: 'Our Mission — QuranTogether',
+  title: 'Our Mission — KhatamTogether',
 };
 
 export default function MissionPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
       <div className="mb-10 text-center">
-        <div
-          className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-on-brand text-xl font-bold shadow-md"
-          style={{ fontFamily: 'var(--font-lateef), serif' }}
-        >
-          ق
-        </div>
+        <LogoMark size="lg" shadow className="mb-4" />
         <h1 className="text-3xl font-bold text-ink">Our Mission</h1>
         <p className="mt-3 text-ink/55 text-lg">
           Bringing hearts together through collective worship.
@@ -32,7 +28,7 @@ export default function MissionPage() {
           <p>
             When someone we love passes away, or when we wish to make du'a for those who are ill or
             facing hardship, one of the greatest gifts we can offer is the recitation of the Quran.
-            QuranTogether was built to make that gift a shared one — so that families, friends, and
+            KhatamTogether was built to make that gift a shared one — so that families, friends, and
             communities can come together, each contributing what they can, to complete the Quran or
             40 Yaseen as a collective act of love and remembrance.
           </p>
@@ -62,7 +58,7 @@ export default function MissionPage() {
             <h2 className="text-lg font-semibold text-ink">Strengthening Community</h2>
           </div>
           <p>
-            Beyond the individual act of worship, QuranTogether is about community. It is about
+            Beyond the individual act of worship, KhatamTogether is about community. It is about
             mosques organising Khatms for those who have passed, families coordinating across
             continents, and friends supporting one another in times of need. We believe technology
             should serve the Ummah — and this is our small contribution to that vision.

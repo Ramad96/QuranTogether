@@ -85,6 +85,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Logo mark: light = cream bg + amber text  /  dark = amber bg + cream text ── */
+.logo-mark {
+  background-color: #F0DFA0;
+  color: #7A4208;
+}
+[data-theme="dark"] .logo-mark {
+  background-color: #7A4208;
+  color: #F5EDD5;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 2px;

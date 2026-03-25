@@ -3,6 +3,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server';
 import AuthButton from './AuthButton';
 import MobileMenu from './MobileMenu';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
+import LogoMark from '@/components/ui/LogoMark';
 
 export default async function Navbar() {
   const supabase = await getSupabaseServerClient();
@@ -23,13 +24,13 @@ export default async function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-on-brand font-bold text-sm shadow-sm group-hover:bg-brand-dark transition-colors"
-            style={{ fontFamily: 'var(--font-lateef), serif' }}
+          <LogoMark size="sm" />
+          <span
+            className="font-semibold text-ink hidden sm:block relative"
+            title="Complete the Quran together — khatam means to seal or finish a full recitation"
           >
-            ق
-          </div>
-          <span className="font-semibold text-ink hidden sm:block">QuranTogether</span>
+            KhatamTogether
+          </span>
         </Link>
 
         {/* Right side */}

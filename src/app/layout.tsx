@@ -34,10 +34,10 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QuranTogether — Shared Quran & Yaseen Journeys",
+  title: "KhatamTogether — Shared Quran & Yaseen Journeys",
   description: "Complete the Quran or 40 Yaseen together as a group, dedicated to your loved ones.",
   openGraph: {
-    title: "QuranTogether",
+    title: "KhatamTogether",
     description: "Collective Quran and Yaseen completion journeys",
     type: "website",
   },

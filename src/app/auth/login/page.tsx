@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, Suspense } from 'react';
+import LogoMark from '@/components/ui/LogoMark';
 import { useSearchParams } from 'next/navigation';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import Button from '@/components/ui/Button';
@@ -215,12 +216,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Header */}
         <div className="mb-8 text-center">
-          <div
-            className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-on-brand text-xl font-bold shadow-md"
-            style={{ fontFamily: 'var(--font-lateef), serif' }}
-          >
-            ق
-          </div>
+          <LogoMark size="lg" shadow className="mb-3" />
           <h1 className="text-2xl font-bold text-ink">Welcome back</h1>
           <p className="mt-1 text-sm text-ink/55">Sign in to join or create journeys</p>
         </div>

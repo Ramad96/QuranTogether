@@ -26,9 +26,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .eq('id', id)
     .single();
 
-  if (!journey) return { title: 'Journey — QuranTogether' };
+  if (!journey) return { title: 'Journey — KhatamTogether' };
   return {
-    title: `${journey.title} — QuranTogether`,
+    title: `${journey.title} — KhatamTogether`,
     description: `Join the journey for ${journey.dedication_name}`,
   };
 }
