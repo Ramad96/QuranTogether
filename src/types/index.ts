@@ -19,6 +19,7 @@ export interface Journey {
   created_by: string;
   invite_code: string;
   is_active: boolean;
+  is_complete: boolean;
   created_at: string;
 }
 

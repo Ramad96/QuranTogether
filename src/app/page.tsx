@@ -37,9 +37,18 @@ async function getJourneys(): Promise<JourneyWithStats[]> {
   });
 }
 
+async function getTotalJourneysCount(): Promise<number> {
+  const supabase = getSupabaseAdminClient();
+  const { count } = await supabase
+    .from('journeys')
+    .select('id', { count: 'exact', head: true });
+  return count ?? 0;
+}
+
 export default async function HomePage() {
-  const [journeys, { data: { user } }] = await Promise.all([
+  const [journeys, totalJourneysCount, { data: { user } }] = await Promise.all([
     getJourneys(),
+    getTotalJourneysCount(),
     getSupabaseServerClient().then((s) => s.auth.getUser()),
   ]);
   const isLoggedIn = !!user && !user.is_anonymous;
@@ -75,7 +84,7 @@ export default async function HomePage() {
       {/* Stats */}
       <div className="mb-10 grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mx-auto">
         {[
-          { icon: BookOpen, label: 'Active Journeys', value: journeys.length },
+          { icon: BookOpen, label: 'Journeys Created', value: totalJourneysCount },
           {
             icon: Users,
             label: 'Participants',

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Users, BookOpen, ArrowRight } from 'lucide-react';
+import { Users, BookOpen, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { JourneyWithStats } from '@/types';
 import { JOURNEY_TYPE_SHORT } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
@@ -29,6 +29,12 @@ export default function JourneyCard({ journey, showJoinButton = true, compact = 
             <Badge variant={journey.type === 'QURAN' ? 'info' : 'success'} className="shrink-0">
               {typeLabel}
             </Badge>
+            {journey.is_complete && (
+              <Badge variant="warning" className="shrink-0 inline-flex items-center gap-1">
+                <CheckCircle2 className="h-3 w-3" />
+                Complete
+              </Badge>
+            )}
           </div>
           <h3 className="font-semibold text-ink truncate group-hover:text-brand transition-colors">
             {journey.title}

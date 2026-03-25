@@ -62,5 +62,19 @@ export async function PATCH(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Auto-complete the journey when all units are done (also handled by DB trigger)
+  const { data: allUnits } = await admin
+    .from('journey_units')
+    .select('status')
+    .eq('journey_id', unit.journey_id);
+
+  if (allUnits && allUnits.length > 0) {
+    const allDone = allUnits.every((u) => u.status === 'COMPLETED');
+    await admin
+      .from('journeys')
+      .update({ is_complete: allDone })
+      .eq('id', unit.journey_id);
+  }
+
   return NextResponse.json({ unit: updated });
 }
