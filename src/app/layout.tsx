@@ -38,6 +38,16 @@ export const metadata: Metadata = {
   title: "KhatamTogether — Shared Quran & Yaseen Journeys",
   description: "Complete the Quran or 40 Yaseen together as a group, dedicated to your loved ones.",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/icon.png", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark.png", media: "(prefers-color-scheme: dark)" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", media: "(prefers-color-scheme: light)" },
+      { url: "/apple-touch-icon-dark.png", media: "(prefers-color-scheme: dark)" },
+    ],
+  },
   appleWebApp: {
     capable: true,
     title: "KhatamTogether",
