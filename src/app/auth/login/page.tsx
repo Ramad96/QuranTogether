@@ -34,9 +34,8 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/dashboard';
 
-  const [mode, setMode] = useState<'magic' | 'guest'>('magic');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [guestName, setGuestName] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -53,6 +52,7 @@ function LoginForm() {
         email,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+          data: { full_name: name.trim() },
         },
       });
       if (error) throw error;
@@ -81,26 +81,6 @@ function LoginForm() {
     }
   };
 
-  const handleGuestJoin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      const res = await fetch('/auth/guest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: guestName, redirectTo }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      window.location.href = data.redirectTo;
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to join as guest');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   if (sent) {
     return (
       <div className="text-center">
@@ -118,88 +98,52 @@ function LoginForm() {
 
   return (
     <div className="space-y-4">
-      {/* Mode toggle */}
-      <div className="flex rounded-xl border border-ink/[0.12] bg-void p-1 gap-1">
-        <button
+      <div className="space-y-3">
+        <Button
           type="button"
-          onClick={() => setMode('magic')}
-          className={`flex-1 rounded-lg py-2 text-sm font-medium transition-colors ${
-            mode === 'magic' ? 'bg-surface text-ink shadow-sm' : 'text-ink/50 hover:text-ink/70'
-          }`}
+          size="lg"
+          variant="secondary"
+          className="w-full"
+          loading={googleLoading}
+          onClick={handleGoogleSignIn}
         >
-          Sign in
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('guest')}
-          className={`flex-1 rounded-lg py-2 text-sm font-medium transition-colors ${
-            mode === 'guest' ? 'bg-surface text-ink shadow-sm' : 'text-ink/50 hover:text-ink/70'
-          }`}
-        >
-          Join as guest
-        </button>
-      </div>
+          <GoogleIcon />
+          Continue with Google
+        </Button>
 
-      {mode === 'magic' ? (
-        <div className="space-y-3">
-          <Button
-            type="button"
-            size="lg"
-            variant="secondary"
-            className="w-full"
-            loading={googleLoading}
-            onClick={handleGoogleSignIn}
-          >
-            <GoogleIcon />
-            Continue with Google
-          </Button>
-
-          <div className="flex items-center gap-3">
-            <div className="flex-1 border-t border-ink/[0.12]" />
-            <span className="text-xs text-ink/40">or</span>
-            <div className="flex-1 border-t border-ink/[0.12]" />
-          </div>
-
-          <form onSubmit={handleMagicLink} className="space-y-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              required
-              className="w-full rounded-xl border border-ink/[0.15] bg-void px-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12]"
-            />
-            <Button type="submit" size="lg" className="w-full" loading={loading}>
-              <Mail className="h-4 w-4" />
-              Send magic link
-            </Button>
-          </form>
+        <div className="flex items-center gap-3">
+          <div className="flex-1 border-t border-ink/[0.12]" />
+          <span className="text-xs text-ink/40">or</span>
+          <div className="flex-1 border-t border-ink/[0.12]" />
         </div>
-      ) : (
-        <form onSubmit={handleGuestJoin} className="space-y-3">
-          <p className="text-sm text-ink/55">
-            Join with just your name — no account needed.
-          </p>
+
+        <form onSubmit={handleMagicLink} className="space-y-3">
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink/40" />
             <input
               type="text"
-              value={guestName}
-              onChange={(e) => setGuestName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
               required
               maxLength={50}
               className="w-full rounded-xl border border-ink/[0.15] bg-void pl-10 pr-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12]"
             />
           </div>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            required
+            className="w-full rounded-xl border border-ink/[0.15] bg-void px-4 py-2.5 text-sm text-ink placeholder-ink/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/[0.12]"
+          />
           <Button type="submit" size="lg" className="w-full" loading={loading}>
-            Join as {guestName || 'Guest'}
+            <Mail className="h-4 w-4" />
+            Send magic link
           </Button>
-          <p className="text-xs text-ink/40 text-center">
-            You can link your email later to keep your progress.
-          </p>
         </form>
-      )}
+      </div>
 
       {error && (
         <div className="rounded-xl bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-600">
