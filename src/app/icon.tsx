@@ -6,8 +6,8 @@ export const size = { width: 512, height: 512 };
 export const contentType = 'image/png';
 
 export default function Icon() {
-  const svg = readFileSync(join(process.cwd(), 'public', 'logo.svg'));
-  const dataUrl = `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+  const png = readFileSync(join(process.cwd(), 'public', 'icon.png'));
+  const dataUrl = `data:image/png;base64,${png.toString('base64')}`;
 
   return new ImageResponse(
     // eslint-disable-next-line @next/next/no-img-element
