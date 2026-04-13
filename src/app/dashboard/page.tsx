@@ -5,6 +5,7 @@ import { JourneyWithStats } from '@/types';
 import JourneyCard from '@/components/journey/JourneyCard';
 import MyAssignments from '@/components/dashboard/MyAssignments';
 import { Plus, BookOpen } from 'lucide-react';
+import JoinJourneyButton from '@/components/dashboard/JoinJourneyButton';
 
 export const metadata: Metadata = {
   title: 'Dashboard — KhatamTogether',
@@ -86,13 +87,16 @@ export default async function DashboardPage() {
               : 'Join or start a journey to get started.'}
           </p>
         </div>
-        <Link
-          href="/journeys/new"
-          className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-medium text-on-brand hover:bg-brand-dark transition-colors shrink-0"
-        >
-          <Plus className="h-4 w-4" />
-          New Journey
-        </Link>
+        <div className="flex items-center gap-2">
+          <JoinJourneyButton />
+          <Link
+            href="/journeys/new"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-medium text-on-brand hover:bg-brand-dark transition-colors shrink-0"
+          >
+            <Plus className="h-4 w-4" />
+            New Journey
+          </Link>
+        </div>
       </div>
 
       {/* Stats row */}
