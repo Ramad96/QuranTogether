@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SessionProvider from "@/components/SessionProvider";
+import AddToHomeScreen from "@/components/AddToHomeScreen";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -36,6 +37,12 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   title: "KhatamTogether — Shared Quran & Yaseen Journeys",
   description: "Complete the Quran or 40 Yaseen together as a group, dedicated to your loved ones.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "KhatamTogether",
+    statusBarStyle: "black-translucent",
+  },
   openGraph: {
     title: "KhatamTogether",
     description: "Collective Quran and Yaseen completion journeys",
@@ -74,6 +81,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <AddToHomeScreen />
         </SessionProvider>
       </body>
     </html>

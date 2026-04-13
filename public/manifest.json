@@ -1,0 +1,23 @@
+{
+  "name": "KhatamTogether",
+  "short_name": "KhatamTogether",
+  "description": "Complete the Quran or 40 Yaseen together as a group, dedicated to your loved ones.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f5c2e",
+  "theme_color": "#0f5c2e",
+  "icons": [
+    {
+      "src": "/apple-icon",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
